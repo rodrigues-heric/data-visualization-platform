@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChevronLeft, ChevronRight, Settings2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Settings2, Download } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -39,83 +39,115 @@ export function Dashboard() {
   };
 
   if (isLoading)
-    return <div className='p-10 text-center'>Carregando análise...</div>;
+    return <div className='p-10 text-center'>Carregando dados...</div>;
+
+  const downloadCSV = () => {
+    if (!data) return;
+
+    const header = visibleColumns.map(col => AVAILABLE_COLUMNS[col]).join(',');
+
+    const rows = data.map(item =>
+      visibleColumns.map(col => `"${item[col] || ''}"`).join(',')
+    );
+
+    const csvContent = [header, ...rows].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `chicago-energy-page-${page + 1}.csv`);
+    link.click();
+  };
 
   return (
-    <Card className='border-slate-200 shadow-sm'>
-      <CardHeader className='flex flex-row items-center justify-between border-b bg-slate-50/50'>
+    <Card className='flex flex-col overflow-hidden border-slate-200 bg-white p-0 shadow-sm'>
+      <CardHeader className='flex flex-row items-center justify-between space-y-0 border-b bg-slate-50/50 px-6 py-4'>
         <div>
           <CardTitle className='text-lg font-semibold text-slate-800'>
-            Análise Dinâmica de Consumo
+            Análise Dinâmica
           </CardTitle>
-          <p className='text-xs text-slate-500'>
-            Personalize as métricas de visualização
-          </p>
+          <p className='text-xs text-slate-500'>Dados de consumo de Chicago</p>
         </div>
+        <div className='flex gap-2'>
+          <Button
+            variant='outline'
+            size='sm'
+            onClick={downloadCSV}
+            className='gap-2'
+          >
+            <Download className='h-4 w-4' />
+            Exportar
+          </Button>
 
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button variant='outline' size='sm' className='ml-auto gap-2'>
-              <Settings2 className='h-4 w-4' />
-              Colunas
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent align='end' className='w-64 p-3'>
-            <div className='space-y-3'>
-              <h4 className='border-b pb-2 text-sm font-medium'>
-                Configurar Colunas
-              </h4>
-              <div className='grid gap-2'>
-                {(
-                  Object.keys(AVAILABLE_COLUMNS) as ChicagoFacilityColumnKey[]
-                ).map(key => (
-                  <div key={key} className='flex items-center space-x-2'>
-                    <Checkbox
-                      id={key}
-                      checked={visibleColumns.includes(key)}
-                      onCheckedChange={() => toggleColumn(key)}
-                    />
-                    <label
-                      htmlFor={key}
-                      className='text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
-                    >
-                      {AVAILABLE_COLUMNS[key]}
-                    </label>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant='outline' size='sm' className='ml-auto gap-2'>
+                <Settings2 className='h-4 w-4' />
+                Colunas
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent align='end' className='w-64 p-3'>
+              <div className='space-y-3'>
+                <h4 className='border-b pb-2 text-sm font-medium'>
+                  Configurar Colunas
+                </h4>
+                <div className='max-h-75 space-y-3 overflow-y-auto p-3'>
+                  <div className='grid gap-2'>
+                    {(
+                      Object.keys(
+                        AVAILABLE_COLUMNS
+                      ) as ChicagoFacilityColumnKey[]
+                    ).map(key => (
+                      <div key={key} className='flex items-center space-x-2'>
+                        <Checkbox
+                          id={key}
+                          checked={visibleColumns.includes(key)}
+                          onCheckedChange={() => toggleColumn(key)}
+                        />
+                        <label
+                          htmlFor={key}
+                          className='text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+                        >
+                          {AVAILABLE_COLUMNS[key]}
+                        </label>
+                      </div>
+                    ))}
                   </div>
-                ))}
+                </div>
               </div>
-            </div>
-          </PopoverContent>
-        </Popover>
+            </PopoverContent>
+          </Popover>
+        </div>
       </CardHeader>
-
-      <CardContent className='p-0'>
-        <Table>
-          <TableHeader className='bg-slate-50'>
-            <TableRow>
-              {visibleColumns.map(col => (
-                <TableHead key={col} className='font-bold text-slate-700'>
-                  {AVAILABLE_COLUMNS[col]}
-                </TableHead>
-              ))}
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {data?.map((item, rowIndex) => (
-              <TableRow key={rowIndex}>
+      <CardContent className='flex-1 bg-white p-0'>
+        <div className='relative max-h-125 overflow-auto'>
+          <Table>
+            <TableHeader className='sticky top-0 z-10 border-b bg-slate-50'>
+              <TableRow>
                 {visibleColumns.map(col => (
-                  <TableCell key={col} className='text-sm text-slate-600'>
-                    {typeof item[col] === 'string' && !isNaN(Number(item[col]))
-                      ? Number(item[col]).toLocaleString('pt-BR')
-                      : item[col]}
-                  </TableCell>
+                  <TableHead key={col} className='font-bold text-slate-700'>
+                    {AVAILABLE_COLUMNS[col]}
+                  </TableHead>
                 ))}
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-
-        <div className='flex items-center justify-between border-t bg-slate-50/30 px-4 py-4'>
+            </TableHeader>
+            <TableBody>
+              {data?.map((item, rowIndex) => (
+                <TableRow key={rowIndex}>
+                  {visibleColumns.map(col => (
+                    <TableCell key={col} className='text-sm text-slate-600'>
+                      {typeof item[col] === 'string' &&
+                      !isNaN(Number(item[col]))
+                        ? Number(item[col]).toLocaleString('pt-BR')
+                        : item[col]}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+        <div className='flex items-center justify-between border-t bg-slate-50/30 px-6 py-4'>
           <div className='text-sm text-slate-500'>
             Mostrando{' '}
             <span className='font-medium text-slate-700'>{data?.length}</span>{' '}
