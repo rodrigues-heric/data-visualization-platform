@@ -60,8 +60,8 @@ export function Dashboard() {
   };
 
   return (
-    <Card className='flex h-175 flex-col overflow-hidden border-slate-200 bg-white p-0 shadow-sm'>
-      <CardHeader className='flex shrink-0 flex-row items-center justify-between space-y-0 border-b bg-slate-50/50 px-6 py-4'>
+    <Card className='flex h-175 flex-col gap-0 overflow-hidden border-slate-200 bg-white p-0 shadow-sm'>
+      <CardHeader className='m-0 flex shrink-0 flex-row items-center justify-between border-b bg-slate-50/50 px-6 py-4'>
         <div>
           <CardTitle className='text-lg leading-none font-semibold text-slate-800'>
             Análise Dinâmica
@@ -119,15 +119,18 @@ export function Dashboard() {
         </div>
       </CardHeader>
 
-      <CardContent className='flex flex-1 flex-col overflow-hidden p-0'>
-        <div className='flex-1 overflow-auto'>
-          <Table className='relative border-separate border-spacing-0'>
-            <TableHeader className='sticky top-0 z-10'>
-              <TableRow className='hover:bg-transparent'>
+      <CardContent className='m-0 flex flex-1 flex-col overflow-hidden p-0 pt-0!'>
+        <div className='flex-1 overflow-auto bg-white outline-none **:data-[slot=table-container]:overflow-visible'>
+          <Table
+            className='relative border-separate border-spacing-0'
+            style={{ overflow: 'visible' }}
+          >
+            <TableHeader className='sticky top-0 z-20'>
+              <TableRow className='border-none hover:bg-transparent'>
                 {visibleColumns.map(col => (
                   <TableHead
                     key={col}
-                    className='h-11 border-b bg-slate-50 px-4 font-bold whitespace-nowrap text-slate-700 first:pl-6 last:pr-6'
+                    className='h-11 border-b border-slate-200 bg-slate-50 px-4 font-bold whitespace-nowrap text-slate-700 first:pl-6 last:pr-6'
                   >
                     {AVAILABLE_COLUMNS[col]}
                   </TableHead>
@@ -140,7 +143,7 @@ export function Dashboard() {
                   {visibleColumns.map(col => (
                     <TableCell
                       key={col}
-                      className='px-4 py-3 text-sm text-slate-600 first:pl-6 last:pr-6'
+                      className='border-b border-slate-100 px-4 py-3 text-sm text-slate-600 first:pl-6 last:pr-6'
                     >
                       {typeof item[col] === 'string' &&
                       !isNaN(Number(item[col]))
@@ -153,8 +156,7 @@ export function Dashboard() {
             </TableBody>
           </Table>
         </div>
-
-        <div className='flex shrink-0 items-center justify-between border-t bg-slate-50/50 px-6 py-4'>
+        <div className='flex items-center justify-between border-t bg-slate-50/30 px-6 py-4'>
           <div className='text-sm text-slate-500'>
             Mostrando{' '}
             <span className='font-medium text-slate-700'>{data?.length}</span>{' '}

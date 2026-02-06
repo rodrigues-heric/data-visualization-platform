@@ -6,7 +6,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className='flex min-h-svh items-center justify-center'>
+      <div className='flex min-h-svh items-center justify-center px-12 py-12'>
         <Dashboard />
       </div>
     </QueryClientProvider>
