@@ -7,6 +7,7 @@ export interface ChicagoFacility {
   census_block: number;
   community_area_name: string;
   electricity_accounts: string;
+  gas_accounts: string;
   kwh_1st_quartile_2010: number;
   kwh_2nd_quartile_2010: number;
   kwh_3rd_quartile_2010: number;

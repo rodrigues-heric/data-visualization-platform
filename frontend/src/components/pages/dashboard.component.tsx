@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import { useChicagoData } from '@/hooks/useChicagoData.hook';
-import { PAGE_LIMIT } from '@/constants/pagination';
-
+import { ChevronLeft, ChevronRight, Settings2 } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -10,98 +8,112 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { Checkbox } from '@/components/ui/checkbox';
+import { useChicagoData } from '@/hooks/useChicagoData.hook';
+import {
+  AVAILABLE_COLUMNS,
+  type ChicagoFacilityColumnKey,
+} from '@/interfaces/chicagoFacilityColumnsMap.type';
+import { PAGE_LIMIT } from '@/constants/pagination';
 
 export function Dashboard() {
   const [page, setPage] = useState(0);
-  const { data, isLoading, isError, isPlaceholderData } = useChicagoData(page);
 
-  if (isLoading) {
-    return (
-      <div className='flex flex-col items-center justify-center space-y-4 p-12'>
-        <Loader2 className='h-8 w-8 animate-spin text-slate-500' />
-        <p className='font-medium text-slate-500'>Carregando dados...</p>
-      </div>
-    );
-  }
+  const [visibleColumns, setVisibleColumns] = useState<
+    ChicagoFacilityColumnKey[]
+  >(['community_area_name', 'building_type', 'total_population', 'total_kwh']);
 
-  if (isError)
-    return (
-      <div className='text-destructive p-8'>
-        Erro ao carregar dados. Tente novamente
-      </div>
+  const { data, isLoading, isPlaceholderData } = useChicagoData(page);
+
+  const toggleColumn = (column: ChicagoFacilityColumnKey) => {
+    setVisibleColumns(prev =>
+      prev.includes(column) ? prev.filter(c => c !== column) : [...prev, column]
     );
+  };
+
+  if (isLoading)
+    return <div className='p-10 text-center'>Carregando análise...</div>;
 
   return (
     <Card className='border-slate-200 shadow-sm'>
-      <CardHeader className='flex flex-row items-center justify-between space-y-0 border-b bg-slate-50/50'>
+      <CardHeader className='flex flex-row items-center justify-between border-b bg-slate-50/50'>
         <div>
-          <CardTitle className='text-xl font-semibold text-slate-800'>
-            Relatório de Consumo Energético
+          <CardTitle className='text-lg font-semibold text-slate-800'>
+            Análise Dinâmica de Consumo
           </CardTitle>
-          <p className='text-sm text-slate-500'>
-            Análise urbana por setor e demografia
+          <p className='text-xs text-slate-500'>
+            Personalize as métricas de visualização
           </p>
         </div>
 
-        {isLoading && (
-          <Loader2 className='h-4 w-4 animate-spin text-slate-400' />
-        )}
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant='outline' size='sm' className='ml-auto gap-2'>
+              <Settings2 className='h-4 w-4' />
+              Colunas
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent align='end' className='w-64 p-3'>
+            <div className='space-y-3'>
+              <h4 className='border-b pb-2 text-sm font-medium'>
+                Configurar Colunas
+              </h4>
+              <div className='grid gap-2'>
+                {(
+                  Object.keys(AVAILABLE_COLUMNS) as ChicagoFacilityColumnKey[]
+                ).map(key => (
+                  <div key={key} className='flex items-center space-x-2'>
+                    <Checkbox
+                      id={key}
+                      checked={visibleColumns.includes(key)}
+                      onCheckedChange={() => toggleColumn(key)}
+                    />
+                    <label
+                      htmlFor={key}
+                      className='text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+                    >
+                      {AVAILABLE_COLUMNS[key]}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </PopoverContent>
+        </Popover>
       </CardHeader>
 
       <CardContent className='p-0'>
-        <div className='relative'>
-          {isPlaceholderData && (
-            <div className='absolute inset-0 z-10 bg-white/50 transition-opacity' />
-          )}
-
-          <Table>
-            <TableHeader className='bg-slate-50'>
-              <TableRow>
-                <TableHead className='font-bold text-slate-700'>
-                  Comunidade
+        <Table>
+          <TableHeader className='bg-slate-50'>
+            <TableRow>
+              {visibleColumns.map(col => (
+                <TableHead key={col} className='font-bold text-slate-700'>
+                  {AVAILABLE_COLUMNS[col]}
                 </TableHead>
-                <TableHead className='font-bold text-slate-700'>
-                  Tipo de Prédio
-                </TableHead>
-                <TableHead className='text-right font-bold text-slate-700'>
-                  População
-                </TableHead>
-                <TableHead className='text-right font-bold text-slate-700'>
-                  Consumo (kWh)
-                </TableHead>
+              ))}
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {data?.map((item, rowIndex) => (
+              <TableRow key={rowIndex}>
+                {visibleColumns.map(col => (
+                  <TableCell key={col} className='text-sm text-slate-600'>
+                    {typeof item[col] === 'string' && !isNaN(Number(item[col]))
+                      ? Number(item[col]).toLocaleString('pt-BR')
+                      : item[col]}
+                  </TableCell>
+                ))}
               </TableRow>
-            </TableHeader>
-            <TableBody>
-              {data?.map((item, index) => {
-                return (
-                  <TableRow key={index} className='hover:bg-slate-50/80'>
-                    <TableCell className='font-medium text-slate-900'>
-                      {item.community_area_name}
-                    </TableCell>
-                    <TableCell>
-                      <Badge
-                        variant='secondary'
-                        className='text-[10px] font-normal tracking-wider uppercase'
-                      >
-                        {item.building_type}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className='text-right font-mono text-xs text-slate-600'>
-                      {item.total_population}
-                    </TableCell>
-                    <TableCell className='text-right font-mono text-xs text-slate-700'>
-                      {item.total_kwh}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </div>
+            ))}
+          </TableBody>
+        </Table>
 
         <div className='flex items-center justify-between border-t bg-slate-50/30 px-4 py-4'>
           <div className='text-sm text-slate-500'>
