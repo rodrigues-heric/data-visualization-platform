@@ -60,14 +60,17 @@ export function Dashboard() {
   };
 
   return (
-    <Card className='flex flex-col overflow-hidden border-slate-200 bg-white p-0 shadow-sm'>
-      <CardHeader className='flex flex-row items-center justify-between space-y-0 border-b bg-slate-50/50 px-6 py-4'>
+    <Card className='flex h-175 flex-col overflow-hidden border-slate-200 bg-white p-0 shadow-sm'>
+      <CardHeader className='flex shrink-0 flex-row items-center justify-between space-y-0 border-b bg-slate-50/50 px-6 py-4'>
         <div>
-          <CardTitle className='text-lg font-semibold text-slate-800'>
+          <CardTitle className='text-lg leading-none font-semibold text-slate-800'>
             Análise Dinâmica
           </CardTitle>
-          <p className='text-xs text-slate-500'>Dados de consumo de Chicago</p>
+          <p className='mt-1.5 text-xs text-slate-500'>
+            Dados de consumo de Chicago
+          </p>
         </div>
+
         <div className='flex gap-2'>
           <Button
             variant='outline'
@@ -86,46 +89,46 @@ export function Dashboard() {
                 Colunas
               </Button>
             </PopoverTrigger>
-            <PopoverContent align='end' className='w-64 p-3'>
-              <div className='space-y-3'>
-                <h4 className='border-b pb-2 text-sm font-medium'>
-                  Configurar Colunas
-                </h4>
-                <div className='max-h-75 space-y-3 overflow-y-auto p-3'>
-                  <div className='grid gap-2'>
-                    {(
-                      Object.keys(
-                        AVAILABLE_COLUMNS
-                      ) as ChicagoFacilityColumnKey[]
-                    ).map(key => (
-                      <div key={key} className='flex items-center space-x-2'>
-                        <Checkbox
-                          id={key}
-                          checked={visibleColumns.includes(key)}
-                          onCheckedChange={() => toggleColumn(key)}
-                        />
-                        <label
-                          htmlFor={key}
-                          className='text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
-                        >
-                          {AVAILABLE_COLUMNS[key]}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
+            <PopoverContent align='end' className='w-64 p-0'>
+              <div className='border-b bg-slate-50/50 p-3'>
+                <h4 className='text-sm font-medium'>Configurar Colunas</h4>
+              </div>
+              <div className='max-h-80 overflow-y-auto p-3'>
+                <div className='grid gap-2'>
+                  {(
+                    Object.keys(AVAILABLE_COLUMNS) as ChicagoFacilityColumnKey[]
+                  ).map(key => (
+                    <div key={key} className='flex items-center space-x-2'>
+                      <Checkbox
+                        id={key}
+                        checked={visibleColumns.includes(key)}
+                        onCheckedChange={() => toggleColumn(key)}
+                      />
+                      <label
+                        htmlFor={key}
+                        className='cursor-pointer text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+                      >
+                        {AVAILABLE_COLUMNS[key]}
+                      </label>
+                    </div>
+                  ))}
                 </div>
               </div>
             </PopoverContent>
           </Popover>
         </div>
       </CardHeader>
-      <CardContent className='flex-1 bg-white p-0'>
-        <div className='relative max-h-125 overflow-auto'>
-          <Table>
-            <TableHeader className='sticky top-0 z-10 border-b bg-slate-50'>
-              <TableRow>
+
+      <CardContent className='flex flex-1 flex-col overflow-hidden p-0'>
+        <div className='flex-1 overflow-auto'>
+          <Table className='relative border-separate border-spacing-0'>
+            <TableHeader className='sticky top-0 z-10'>
+              <TableRow className='hover:bg-transparent'>
                 {visibleColumns.map(col => (
-                  <TableHead key={col} className='font-bold text-slate-700'>
+                  <TableHead
+                    key={col}
+                    className='h-11 border-b bg-slate-50 px-4 font-bold whitespace-nowrap text-slate-700 first:pl-6 last:pr-6'
+                  >
                     {AVAILABLE_COLUMNS[col]}
                   </TableHead>
                 ))}
@@ -133,9 +136,12 @@ export function Dashboard() {
             </TableHeader>
             <TableBody>
               {data?.map((item, rowIndex) => (
-                <TableRow key={rowIndex}>
+                <TableRow key={rowIndex} className='hover:bg-slate-50/50'>
                   {visibleColumns.map(col => (
-                    <TableCell key={col} className='text-sm text-slate-600'>
+                    <TableCell
+                      key={col}
+                      className='px-4 py-3 text-sm text-slate-600 first:pl-6 last:pr-6'
+                    >
                       {typeof item[col] === 'string' &&
                       !isNaN(Number(item[col]))
                         ? Number(item[col]).toLocaleString('pt-BR')
@@ -147,7 +153,8 @@ export function Dashboard() {
             </TableBody>
           </Table>
         </div>
-        <div className='flex items-center justify-between border-t bg-slate-50/30 px-6 py-4'>
+
+        <div className='flex shrink-0 items-center justify-between border-t bg-slate-50/50 px-6 py-4'>
           <div className='text-sm text-slate-500'>
             Mostrando{' '}
             <span className='font-medium text-slate-700'>{data?.length}</span>{' '}
