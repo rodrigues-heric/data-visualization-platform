@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChevronLeft, ChevronRight, Settings2, Download } from 'lucide-react';
+import { Download } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -10,19 +10,15 @@ import {
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
-import { Checkbox } from '@/components/ui/checkbox';
+
 import { useChicagoData } from '@/hooks/useChicagoData.hook';
 import {
   AVAILABLE_COLUMNS,
   type ChicagoFacilityColumnKey,
 } from '@/interfaces/chicagoFacilityColumnsMap.type';
-import { PAGE_LIMIT } from '@/constants/pagination';
 import { Details } from './details.component';
+import { Footer } from '../dashboard/footer.component';
+import { ConfigureColumns } from '../dashboard/configureColumns.component';
 
 export function Dashboard() {
   const [page, setPage] = useState(0);
@@ -43,24 +39,6 @@ export function Dashboard() {
   if (isLoading)
     return <div className='p-10 text-center'>Carregando dados...</div>;
 
-  const downloadCSV = () => {
-    if (!data) return;
-
-    const header = visibleColumns.map(col => AVAILABLE_COLUMNS[col]).join(',');
-
-    const rows = data.map(item =>
-      visibleColumns.map(col => `"${item[col] || ''}"`).join(',')
-    );
-
-    const csvContent = [header, ...rows].join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', `chicago-energy-page-${page + 1}.csv`);
-    link.click();
-  };
-
   return (
     <>
       <Card className='flex h-175 flex-col gap-0 overflow-hidden border-slate-200 bg-white p-0 shadow-sm'>
@@ -78,53 +56,17 @@ export function Dashboard() {
             <Button
               variant='outline'
               size='sm'
-              onClick={downloadCSV}
+              onClick={() => downloadCSV(data || [], visibleColumns, page)}
               className='gap-2 hover:cursor-pointer'
             >
               <Download className='h-4 w-4 hover:cursor-pointer' />
               Exportar
             </Button>
 
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant='outline'
-                  size='sm'
-                  className='ml-auto gap-2 hover:cursor-pointer'
-                >
-                  <Settings2 className='h-4 w-4' />
-                  Colunas
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent align='end' className='w-64 p-0'>
-                <div className='border-b bg-slate-50/50 p-3'>
-                  <h4 className='text-sm font-medium'>Configurar Colunas</h4>
-                </div>
-                <div className='max-h-80 overflow-y-auto p-3'>
-                  <div className='grid gap-2'>
-                    {(
-                      Object.keys(
-                        AVAILABLE_COLUMNS
-                      ) as ChicagoFacilityColumnKey[]
-                    ).map(key => (
-                      <div key={key} className='flex items-center space-x-2'>
-                        <Checkbox
-                          id={key}
-                          checked={visibleColumns.includes(key)}
-                          onCheckedChange={() => toggleColumn(key)}
-                        />
-                        <label
-                          htmlFor={key}
-                          className='cursor-pointer text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
-                        >
-                          {AVAILABLE_COLUMNS[key]}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </PopoverContent>
-            </Popover>
+            <ConfigureColumns
+              visibleColumns={visibleColumns}
+              toggleColumn={toggleColumn}
+            />
           </div>
         </CardHeader>
 
@@ -169,39 +111,12 @@ export function Dashboard() {
               </TableBody>
             </Table>
           </div>
-          <div className='flex items-center justify-between border-t bg-slate-50/30 px-6 py-4'>
-            <div className='text-sm text-slate-500'>
-              Mostrando{' '}
-              <span className='font-medium text-slate-700'>{data?.length}</span>{' '}
-              registros
-            </div>
-
-            <div className='flex items-center space-x-2'>
-              <span className='mr-2 text-xs text-slate-500'>
-                Página {page + 1}
-              </span>
-              <Button
-                variant='outline'
-                size='sm'
-                onClick={() => setPage(p => Math.max(p - 1, 0))}
-                disabled={page === 0}
-                className='h-8 w-8 p-0 hover:cursor-pointer'
-              >
-                <ChevronLeft className='h-4 w-4' />
-              </Button>
-              <Button
-                variant='outline'
-                size='sm'
-                onClick={() => setPage(p => p + 1)}
-                disabled={
-                  isPlaceholderData || (data && data.length < PAGE_LIMIT)
-                }
-                className='h-8 w-8 p-0 hover:cursor-pointer'
-              >
-                <ChevronRight className='h-4 w-4' />
-              </Button>
-            </div>
-          </div>
+          <Footer
+            data={data}
+            page={page}
+            setPage={setPage}
+            isPlaceholderData={isPlaceholderData}
+          />
         </CardContent>
       </Card>
       <Details
@@ -211,4 +126,26 @@ export function Dashboard() {
       />
     </>
   );
+}
+
+function downloadCSV(
+  data: any[],
+  visibleColumns: ChicagoFacilityColumnKey[],
+  page: number
+) {
+  if (!data) return;
+
+  const header = visibleColumns.map(col => AVAILABLE_COLUMNS[col]).join(',');
+
+  const rows = data.map(item =>
+    visibleColumns.map(col => `"${item[col] || ''}"`).join(',')
+  );
+
+  const csvContent = [header, ...rows].join('\n');
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.setAttribute('download', `chicago-energy-page-${page + 1}.csv`);
+  link.click();
 }
