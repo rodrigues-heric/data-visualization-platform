@@ -1,14 +1,34 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Dashboard } from './components/pages/dashboard.component';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Home } from '@/components/pages/home';
+import { DashboardEnergy } from './components/pages/dashboardEnergy.component';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 1,
+    },
+  },
+});
 
 function App() {
-  const queryClient = new QueryClient();
-
   return (
     <QueryClientProvider client={queryClient}>
-      <div className='flex min-h-svh items-center justify-center px-12 py-12'>
-        <Dashboard />
-      </div>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Home />}>
+            <Route index element={<Navigate to='/energy' replace />} />
+            <Route path='energy' element={<DashboardEnergy />} />
+          </Route>
+          <Route
+            path='*'
+            element={
+              <div className='p-20 text-center'>Página não encontrada.</div>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
     </QueryClientProvider>
   );
 }
