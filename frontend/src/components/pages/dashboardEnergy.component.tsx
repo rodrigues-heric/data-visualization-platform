@@ -20,10 +20,15 @@ import { DetailsEnergy } from './detailsEnergy.component';
 import { Footer } from '../dashboard/footer.component';
 import { ConfigureColumns } from '../dashboard/configureColumns.component';
 import { FadeIn } from '../layout/fadeIn';
+import { useSettings } from '../context/settingsContext';
+import { translations } from '@/locales/i18n';
 
 export function DashboardEnergy() {
   const [page, setPage] = useState(0);
   const [selectedRow, setSelectedRow] = useState<any | null>(null);
+
+  const { lang } = useSettings();
+  const t = translations[lang];
 
   const [visibleColumns, setVisibleColumns] = useState<
     ChicagoFacilityColumnKey[]
@@ -52,10 +57,10 @@ export function DashboardEnergy() {
           <CardHeader className='m-0 flex shrink-0 flex-row items-center justify-between border-b border-slate-200 bg-slate-50/50 px-6 py-4 dark:border-slate-800 dark:bg-slate-900/50'>
             <div>
               <CardTitle className='text-lg leading-none font-semibold text-slate-800 dark:text-slate-100'>
-                Análise Dinâmica
+                {t.energyTable.title}
               </CardTitle>
               <p className='mt-1.5 text-xs text-slate-500 dark:text-slate-400'>
-                Dados de consumo de Chicago
+                {t.energyTable.subtitle}
               </p>
             </div>
 
@@ -67,7 +72,7 @@ export function DashboardEnergy() {
                 className='gap-2 hover:cursor-pointer dark:border-slate-800 dark:hover:bg-slate-800'
               >
                 <Download className='h-4 w-4' />
-                Exportar
+                {t.energyTable.export}
               </Button>
 
               <ConfigureColumns

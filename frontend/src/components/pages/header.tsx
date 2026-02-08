@@ -15,14 +15,16 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useSettings } from '@/components/context/settingsContext';
 import { Link, useLocation } from 'react-router-dom';
+import { translations } from '@/locales/i18n';
 
 export function Header() {
   const { theme, setTheme, lang, setLang } = useSettings();
   const location = useLocation();
+  const t = translations[lang];
 
   const navItems = [
-    { label: 'Energia Chicago', path: '/energy', icon: LayoutDashboard },
-    { label: 'Análise Comparativa', path: '/foo', icon: BarChart3 },
+    { label: t.header.nav.energy, path: '/energy', icon: LayoutDashboard },
+    { label: t.header.nav.comparative, path: '/foo', icon: BarChart3 },
   ];
 
   return (
@@ -90,13 +92,13 @@ export function Header() {
                     : 'hover:cursor-pointer'
                 }
               >
-                Português (BR)
+                {t.header.languages.pt}
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => setLang('en')}
                 className={lang === 'en' ? 'font-bold' : 'hover:cursor-pointer'}
               >
-                English (US)
+                {t.header.languages.en}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -118,10 +120,10 @@ export function Header() {
 
           <div className='hidden md:block'>
             <p className='text-xs font-semibold text-slate-900 dark:text-slate-100'>
-              Usuário Administrador
+              {t.header.user.name}
             </p>
             <p className='text-[10px] text-slate-500 uppercase'>
-              {lang === 'pt-BR' ? 'Analista Sênior' : 'Senior Analyst'}
+              {t.header.user.role}
             </p>
           </div>
         </div>

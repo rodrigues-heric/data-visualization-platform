@@ -10,6 +10,8 @@ import {
   type ChicagoFacilityColumnKey,
 } from '@/interfaces/chicagoFacilityColumnsMap.type';
 import { Separator } from '@/components/ui/separator';
+import { useSettings } from '../context/settingsContext';
+import { translations } from '@/locales/i18n';
 
 interface FacilityDetailsProps {
   data: any | null;
@@ -20,6 +22,9 @@ interface FacilityDetailsProps {
 export function DetailsEnergy({ data, isOpen, onClose }: FacilityDetailsProps) {
   if (!data) return null;
 
+  const { lang } = useSettings();
+  const t = translations[lang];
+
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent className='w-100 overflow-y-auto sm:w-135 sm:max-w-2xl dark:border-slate-800 dark:bg-slate-950'>
@@ -28,7 +33,7 @@ export function DetailsEnergy({ data, isOpen, onClose }: FacilityDetailsProps) {
             {data.community_area_name}
           </SheetTitle>
           <SheetDescription className='dark:text-slate-400'>
-            Detalhamento completo dos indicadores energéticos e estruturais.
+            {t.energyDetails.description}
           </SheetDescription>
         </SheetHeader>
 
@@ -45,45 +50,76 @@ export function DetailsEnergy({ data, isOpen, onClose }: FacilityDetailsProps) {
 }
 
 function SectionStructure({ data }: { data: any }) {
+  const { lang } = useSettings();
+  const t = translations[lang];
+
   return (
     <section className='mb-2 px-4'>
       <h4 className='mb-3 text-xs font-bold tracking-widest text-slate-500 uppercase dark:text-slate-400'>
-        Estrutura do Imóvel
+        {t.energyDetails.building.title}
       </h4>
       <div className='grid grid-cols-2 gap-4'>
-        <DetailItem label='Tipo de Edificação' value={data.building_type} />
-        <DetailItem label='Subtipo' value={data.building_subtype} />
         <DetailItem
-          label='Idade Média'
-          value={`${data.average_building_age} anos`}
+          label={t.energyDetails.building.type}
+          value={data.building_type}
         />
-        <DetailItem label='Total de Unidades' value={data.total_units} />
+        <DetailItem
+          label={t.energyDetails.building.subtype}
+          value={data.building_subtype}
+        />
+        <DetailItem
+          label={t.energyDetails.building.averageAge}
+          value={`${data.average_building_age} ${t.energyDetails.building.years}`}
+        />
+        <DetailItem
+          label={t.energyDetails.building.totalUnits}
+          value={data.total_units}
+        />
       </div>
     </section>
   );
 }
 
 function SectionEnergyConsumption({ data }: { data: any }) {
+  const { lang } = useSettings();
+  const t = translations[lang];
+
   return (
     <section className='mb-2 px-4'>
       <h4 className='mb-3 text-xs font-bold tracking-widest text-slate-500 uppercase dark:text-slate-400'>
-        Consumo de Energia (2010)
+        {t.energyDetails.energy.title}
       </h4>
       <div className='grid grid-cols-2 gap-4'>
-        <DetailItem label='Total kWh' value={data.total_kwh} highlight />
-        <DetailItem label='População' value={data.total_population} />
-        <DetailItem label='Janeiro' value={`${data.kwh_january_2010} kWh`} />
-        <DetailItem label='Dezembro' value={`${data.kwh_december_2010} kWh`} />
+        <DetailItem
+          label={t.energyDetails.energy.consumption.total}
+          value={data.total_kwh}
+          highlight
+        />
+        <DetailItem
+          label={t.energyDetails.energy.consumption.population}
+          value={data.total_population}
+        />
+        <DetailItem
+          label={t.energyDetails.energy.consumption.january}
+          value={`${data.kwh_january_2010} kWh`}
+        />
+        <DetailItem
+          label={t.energyDetails.energy.consumption.december}
+          value={`${data.kwh_december_2010} kWh`}
+        />
       </div>
     </section>
   );
 }
 
 function SectionAllData({ data }: { data: any }) {
+  const { lang } = useSettings();
+  const t = translations[lang];
+
   return (
     <section className='mb-4 px-4'>
       <h4 className='mb-3 text-xs font-bold tracking-widest text-slate-500 uppercase dark:text-slate-400'>
-        Todos os Indicadores
+        {t.energyDetails.allData}
       </h4>
       <div className='space-y-2 rounded-lg bg-slate-50 p-4 dark:bg-slate-900/50'>
         {(Object.keys(AVAILABLE_COLUMNS) as ChicagoFacilityColumnKey[]).map(

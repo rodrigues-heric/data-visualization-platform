@@ -1,6 +1,8 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PAGE_LIMIT } from '@/constants/pagination';
+import { useSettings } from '../context/settingsContext';
+import { translations } from '@/locales/i18n';
 
 export function Footer({
   data,
@@ -13,10 +15,13 @@ export function Footer({
   setPage: React.Dispatch<React.SetStateAction<number>>;
   isPlaceholderData: boolean;
 }) {
+  const { lang } = useSettings();
+  const t = translations[lang];
+
   return (
     <div className='flex items-center justify-between border-t bg-slate-50/30 px-6 py-4 dark:border-slate-800 dark:bg-slate-900/50'>
       <div className='text-sm text-slate-500 dark:text-slate-400'>
-        Mostrando registros{' '}
+        {t.energyTable.footer.showing + ' '}
         <span className='font-medium text-slate-700 dark:text-slate-200'>
           {PAGE_LIMIT * page + 1}
           {' - '}
@@ -26,7 +31,7 @@ export function Footer({
 
       <div className='flex items-center space-x-2'>
         <span className='mr-2 text-xs text-slate-500 dark:text-slate-500'>
-          Página {page + 1}
+          {t.energyTable.footer.page} {page + 1}
         </span>
 
         <Button
