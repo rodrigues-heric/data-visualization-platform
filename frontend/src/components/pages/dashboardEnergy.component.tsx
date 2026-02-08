@@ -16,7 +16,7 @@ import {
   AVAILABLE_COLUMNS,
   type ChicagoFacilityColumnKey,
 } from '@/interfaces/chicagoFacilityColumnsMap.type';
-import { Details } from './details.component';
+import { DetailsEnergy } from './detailsEnergy.component';
 import { Footer } from '../dashboard/footer.component';
 import { ConfigureColumns } from '../dashboard/configureColumns.component';
 import { FadeIn } from '../layout/fadeIn';
@@ -129,7 +129,7 @@ export function DashboardEnergy() {
         </Card>
       </FadeIn>
 
-      <Details
+      <DetailsEnergy
         data={selectedRow}
         isOpen={!!selectedRow}
         onClose={() => setSelectedRow(null)}
