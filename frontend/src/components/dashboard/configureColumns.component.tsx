@@ -10,6 +10,8 @@ import {
   AVAILABLE_COLUMNS,
   type ChicagoFacilityColumnKey,
 } from '@/interfaces/chicagoFacilityColumnsMap.type';
+import { useSettings } from '../context/settingsContext';
+import { translations } from '@/locales/i18n';
 
 export function ConfigureColumns({
   visibleColumns,
@@ -18,6 +20,9 @@ export function ConfigureColumns({
   visibleColumns: ChicagoFacilityColumnKey[];
   toggleColumn: (col: ChicagoFacilityColumnKey) => void;
 }) {
+  const { lang } = useSettings();
+  const t = translations[lang];
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -27,7 +32,7 @@ export function ConfigureColumns({
           className='ml-auto gap-2 hover:cursor-pointer dark:border-slate-800 dark:text-slate-300'
         >
           <Settings2 className='h-4 w-4' />
-          Colunas
+          {t.energyTable.columns}
         </Button>
       </PopoverTrigger>
 
@@ -37,7 +42,7 @@ export function ConfigureColumns({
       >
         <div className='border-b bg-slate-50/50 p-3 dark:border-slate-800 dark:bg-slate-800/50'>
           <h4 className='text-sm font-medium text-slate-800 dark:text-slate-100'>
-            Configurar Colunas
+            {t.energyTable.configureColumns}
           </h4>
         </div>
 

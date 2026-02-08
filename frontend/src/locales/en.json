@@ -1,0 +1,48 @@
+{
+  "header": {
+    "nav": {
+      "energy": "Chicago Energy",
+      "comparative": "Comparative Analysis"
+    },
+    "user": {
+      "name": "Admin User",
+      "role": "Senior Analyst"
+    },
+    "languages": {
+      "pt": "Portuguese (BR)",
+      "en": "English (US)"
+    }
+  },
+  "energyTable": {
+    "title": "Energy Data",
+    "subtitle": "Energy consumption data for Chicago (2010)",
+    "export": "Export",
+    "columns": "Columns",
+    "configureColumns": "Configure Columns",
+    "footer": {
+      "showing": "Showing records",
+      "page": "Page"
+    }
+  },
+  "energyDetails": {
+    "description": "Complete details of the energy and structural indicators.",
+    "building": {
+      "title": "Building Structure",
+      "type": "Building Type",
+      "subtype": "Building Subtype",
+      "averageAge": "Average Age",
+      "totalUnits": "Total Units",
+      "years": "years"
+    },
+    "energy": {
+      "title": "Energy Consumption (2010)",
+      "consumption": {
+        "total": "Total kwh",
+        "population": "Population",
+        "january": "January",
+        "december": "December"
+      }
+    },
+    "allData": "All Indicators"
+  }
+}
