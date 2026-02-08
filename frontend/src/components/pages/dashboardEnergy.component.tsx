@@ -16,7 +16,7 @@ import {
   AVAILABLE_COLUMNS,
   type ChicagoFacilityColumnKey,
 } from '@/interfaces/chicagoFacilityColumnsMap.type';
-import { Details } from './details.component';
+import { DetailsEnergy } from './detailsEnergy.component';
 import { Footer } from '../dashboard/footer.component';
 import { ConfigureColumns } from '../dashboard/configureColumns.component';
 import { FadeIn } from '../layout/fadeIn';
@@ -39,8 +39,8 @@ export function DashboardEnergy() {
 
   if (isLoading) {
     return (
-      <div className='flex h-96 items-center justify-center text-slate-400'>
-        <div className='h-5 w-5 animate-spin rounded-full border-2 border-slate-300 border-t-slate-600' />
+      <div className='flex h-96 items-center justify-center text-slate-400 dark:text-slate-500'>
+        <div className='h-5 w-5 animate-spin rounded-full border-2 border-slate-300 border-t-slate-600 dark:border-slate-700 dark:border-t-slate-400' />
       </div>
     );
   }
@@ -48,13 +48,13 @@ export function DashboardEnergy() {
   return (
     <>
       <FadeIn>
-        <Card className='flex h-175 flex-col gap-0 overflow-hidden border-slate-200 bg-white p-0 shadow-sm'>
-          <CardHeader className='m-0 flex shrink-0 flex-row items-center justify-between border-b bg-slate-50/50 px-6 py-4'>
+        <Card className='flex h-175 flex-col gap-0 overflow-hidden border-slate-200 bg-white p-0 shadow-sm dark:border-slate-800 dark:bg-slate-950'>
+          <CardHeader className='m-0 flex shrink-0 flex-row items-center justify-between border-b border-slate-200 bg-slate-50/50 px-6 py-4 dark:border-slate-800 dark:bg-slate-900/50'>
             <div>
-              <CardTitle className='text-lg leading-none font-semibold text-slate-800'>
+              <CardTitle className='text-lg leading-none font-semibold text-slate-800 dark:text-slate-100'>
                 Análise Dinâmica
               </CardTitle>
-              <p className='mt-1.5 text-xs text-slate-500'>
+              <p className='mt-1.5 text-xs text-slate-500 dark:text-slate-400'>
                 Dados de consumo de Chicago
               </p>
             </div>
@@ -64,9 +64,9 @@ export function DashboardEnergy() {
                 variant='outline'
                 size='sm'
                 onClick={() => downloadCSV(data || [], visibleColumns, page)}
-                className='gap-2 hover:cursor-pointer'
+                className='gap-2 hover:cursor-pointer dark:border-slate-800 dark:hover:bg-slate-800'
               >
-                <Download className='h-4 w-4 hover:cursor-pointer' />
+                <Download className='h-4 w-4' />
                 Exportar
               </Button>
 
@@ -78,7 +78,7 @@ export function DashboardEnergy() {
           </CardHeader>
 
           <CardContent className='m-0 flex flex-1 flex-col overflow-hidden p-0 pt-0!'>
-            <div className='flex-1 overflow-auto bg-white outline-none **:data-[slot=table-container]:overflow-visible'>
+            <div className='flex-1 overflow-auto bg-white outline-none **:data-[slot=table-container]:overflow-visible dark:bg-slate-950'>
               <Table
                 className='relative border-separate border-spacing-0'
                 style={{ overflow: 'visible' }}
@@ -88,7 +88,7 @@ export function DashboardEnergy() {
                     {visibleColumns.map(col => (
                       <TableHead
                         key={col}
-                        className='h-11 border-b border-slate-200 bg-slate-50 px-4 font-bold whitespace-nowrap text-slate-700 first:pl-6 last:pr-6'
+                        className='h-11 border-b border-slate-200 bg-slate-50 px-4 font-bold whitespace-nowrap text-slate-700 first:pl-6 last:pr-6 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200'
                       >
                         {AVAILABLE_COLUMNS[col]}
                       </TableHead>
@@ -99,13 +99,13 @@ export function DashboardEnergy() {
                   {data?.map((item, rowIndex) => (
                     <TableRow
                       key={rowIndex}
-                      className='hover:cursor-pointer hover:bg-slate-50/50'
+                      className='hover:cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-900/50'
                       onClick={() => setSelectedRow(item)}
                     >
                       {visibleColumns.map(col => (
                         <TableCell
                           key={col}
-                          className='border-b border-slate-100 px-4 py-3 text-sm text-slate-600 first:pl-6 last:pr-6'
+                          className='border-b border-slate-100 px-4 py-3 text-sm text-slate-600 first:pl-6 last:pr-6 dark:border-slate-800 dark:text-slate-400'
                         >
                           {typeof item[col] === 'string' &&
                           !isNaN(Number(item[col]))
@@ -118,6 +118,7 @@ export function DashboardEnergy() {
                 </TableBody>
               </Table>
             </div>
+
             <Footer
               data={data}
               page={page}
@@ -127,7 +128,8 @@ export function DashboardEnergy() {
           </CardContent>
         </Card>
       </FadeIn>
-      <Details
+
+      <DetailsEnergy
         data={selectedRow}
         isOpen={!!selectedRow}
         onClose={() => setSelectedRow(null)}

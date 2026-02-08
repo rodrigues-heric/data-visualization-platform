@@ -17,30 +17,26 @@ interface FacilityDetailsProps {
   onClose: () => void;
 }
 
-export function Details({ data, isOpen, onClose }: FacilityDetailsProps) {
+export function DetailsEnergy({ data, isOpen, onClose }: FacilityDetailsProps) {
   if (!data) return null;
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent className='w-100 overflow-y-auto sm:w-135 sm:max-w-2xl'>
+      <SheetContent className='w-100 overflow-y-auto sm:w-135 sm:max-w-2xl dark:border-slate-800 dark:bg-slate-950'>
         <SheetHeader className='pb-0'>
-          <SheetTitle className='text-xl font-bold text-slate-800'>
+          <SheetTitle className='text-xl font-bold text-slate-800 dark:text-slate-100'>
             {data.community_area_name}
           </SheetTitle>
-          <SheetDescription>
+          <SheetDescription className='dark:text-slate-400'>
             Detalhamento completo dos indicadores energéticos e estruturais.
           </SheetDescription>
         </SheetHeader>
 
-        <div>
+        <div className='mt-6'>
           <SectionStructure data={data} />
-
-          <Separator className='mb-2' />
-
+          <Separator className='my-4 dark:bg-slate-800' />
           <SectionEnergyConsumption data={data} />
-
-          <Separator className='mb-2' />
-
+          <Separator className='my-4 dark:bg-slate-800' />
           <SectionAllData data={data} />
         </div>
       </SheetContent>
@@ -51,7 +47,7 @@ export function Details({ data, isOpen, onClose }: FacilityDetailsProps) {
 function SectionStructure({ data }: { data: any }) {
   return (
     <section className='mb-2 px-4'>
-      <h4 className='mb-3 text-lg font-semibold tracking-wider text-slate-700 uppercase'>
+      <h4 className='mb-3 text-xs font-bold tracking-widest text-slate-500 uppercase dark:text-slate-400'>
         Estrutura do Imóvel
       </h4>
       <div className='grid grid-cols-2 gap-4'>
@@ -70,7 +66,7 @@ function SectionStructure({ data }: { data: any }) {
 function SectionEnergyConsumption({ data }: { data: any }) {
   return (
     <section className='mb-2 px-4'>
-      <h4 className='mb-3 text-lg font-semibold tracking-wider text-slate-700 uppercase'>
+      <h4 className='mb-3 text-xs font-bold tracking-widest text-slate-500 uppercase dark:text-slate-400'>
         Consumo de Energia (2010)
       </h4>
       <div className='grid grid-cols-2 gap-4'>
@@ -86,18 +82,20 @@ function SectionEnergyConsumption({ data }: { data: any }) {
 function SectionAllData({ data }: { data: any }) {
   return (
     <section className='mb-4 px-4'>
-      <h4 className='mb-3 text-sm font-semibold tracking-wider text-slate-700 uppercase'>
+      <h4 className='mb-3 text-xs font-bold tracking-widest text-slate-500 uppercase dark:text-slate-400'>
         Todos os Indicadores
       </h4>
-      <div className='space-y-2 rounded-lg bg-slate-50 p-4'>
+      <div className='space-y-2 rounded-lg bg-slate-50 p-4 dark:bg-slate-900/50'>
         {(Object.keys(AVAILABLE_COLUMNS) as ChicagoFacilityColumnKey[]).map(
           key => (
             <div
               key={key}
-              className='flex justify-between border-b border-slate-200 pb-1 text-xs'
+              className='flex justify-between border-b border-slate-200 pb-1 text-xs dark:border-slate-800'
             >
-              <span className='text-slate-500'>{AVAILABLE_COLUMNS[key]}:</span>
-              <span className='font-mono text-slate-700'>
+              <span className='text-slate-500 dark:text-slate-400'>
+                {AVAILABLE_COLUMNS[key]}:
+              </span>
+              <span className='font-mono text-slate-700 dark:text-slate-300'>
                 {data[key] || 'N/A'}
               </span>
             </div>
@@ -119,9 +117,15 @@ function DetailItem({
 }) {
   return (
     <div className='flex flex-col'>
-      <span className='text-xs text-slate-500'>{label}</span>
+      <span className='text-[10px] font-medium tracking-tight text-slate-500 uppercase dark:text-slate-500'>
+        {label}
+      </span>
       <span
-        className={`text-sm font-medium ${highlight ? 'font-bold text-blue-600' : 'text-slate-800'}`}
+        className={`text-sm font-medium ${
+          highlight
+            ? 'font-bold text-blue-600 dark:text-blue-400'
+            : 'text-slate-800 dark:text-slate-200'
+        }`}
       >
         {value || '---'}
       </span>
