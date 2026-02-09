@@ -44,5 +44,14 @@
       }
     },
     "allData": "All Indicators"
+  },
+  "schoolView": {
+    "title": "School Newtwork",
+    "showing": "Showing Chicago schools",
+    "previous": "Previous",
+    "next": "Next",
+    "level": "Level",
+    "rating": "Rating",
+    "attendance": "Attendance"
   }
 }

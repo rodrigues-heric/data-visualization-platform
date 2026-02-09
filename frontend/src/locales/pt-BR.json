@@ -44,5 +44,14 @@
       }
     },
     "allData": "Todos os Indicadores"
+  },
+  "schoolView": {
+    "title": "Rede de Ensino",
+    "showing": "Mostrando Escolas em Chicago",
+    "previous": "Anterior",
+    "next": "Próximo",
+    "level": "Nível",
+    "rating": "Avaliação",
+    "attendance": "Frequência"
   }
 }

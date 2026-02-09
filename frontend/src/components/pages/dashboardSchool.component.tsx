@@ -34,12 +34,13 @@ export function DashboardSchool() {
       <div className='flex items-center justify-between border-b border-slate-200 pb-6 dark:border-slate-800'>
         <div>
           <h2 className='text-2xl font-bold text-slate-900 dark:text-slate-100'>
-            {lang === 'pt-BR' ? 'Rede de Ensino' : 'School Network'}
+            {t.schoolView.title}
           </h2>
           <p className='text-sm text-slate-500'>
-            {lang === 'pt-BR'
-              ? `Mostrando ${startRange}-${endRange} instituições em Chicago`
-              : `Showing ${startRange}-${endRange} institutions in Chicago`}
+            {t.schoolView.showing}{' '}
+            <span className='font-bold'>
+              {startRange}-{endRange}
+            </span>
           </p>
         </div>
 
@@ -49,12 +50,12 @@ export function DashboardSchool() {
             size='sm'
             onClick={() => setPage(p => Math.max(0, p - 1))}
             disabled={page === 0}
-            className='dark:border-slate-800'
+            className='hover:cursor-pointer dark:border-slate-800'
           >
             <ChevronLeft className='mr-2 h-4 w-4' />
-            {lang === 'pt-BR' ? 'Anterior' : 'Previous'}
+            {t.schoolView.previous}
           </Button>
-          <div className='flex h-9 items-center justify-center rounded-md border border-slate-200 px-4 text-sm font-medium dark:border-slate-800 dark:text-slate-300'>
+          <div className='flex h-9 items-center justify-center rounded-md border border-slate-200 px-4 text-sm font-medium hover:cursor-default dark:border-slate-800 dark:text-slate-300'>
             {page + 1}
           </div>
           <Button
@@ -62,9 +63,9 @@ export function DashboardSchool() {
             size='sm'
             onClick={() => setPage(p => p + 1)}
             disabled={isPlaceholderData || (data && data.length < PAGE_LIMIT)}
-            className='dark:border-slate-800'
+            className='hover:cursor-pointer dark:border-slate-800'
           >
-            {lang === 'pt-BR' ? 'Próximo' : 'Next'}
+            {t.schoolView.next}
             <ChevronRight className='ml-2 h-4 w-4' />
           </Button>
         </div>
@@ -74,7 +75,7 @@ export function DashboardSchool() {
         {data?.map(school => (
           <Card
             key={school.school_id}
-            className='group transition-all hover:border-blue-500/50 hover:shadow-md dark:border-slate-800 dark:bg-slate-950'
+            className='group transition-all hover:cursor-pointer hover:border-blue-500/50 hover:shadow-md dark:border-slate-800 dark:bg-slate-950'
           >
             <CardHeader className='p-5 pb-3'>
               <div className='flex items-start justify-between gap-4'>
@@ -91,7 +92,7 @@ export function DashboardSchool() {
             <CardContent className='grid grid-cols-3 gap-2 p-5 pt-0'>
               <div className='flex flex-col gap-1 border-r border-slate-100 pr-2 dark:border-slate-800'>
                 <span className='text-[10px] font-semibold tracking-widest text-slate-400 uppercase'>
-                  {lang === 'pt-BR' ? 'Nível' : 'Level'}
+                  {t.schoolView.level}
                 </span>
                 <span className='text-xs font-medium text-slate-700 dark:text-slate-300'>
                   {school.primary_category}
@@ -100,18 +101,16 @@ export function DashboardSchool() {
 
               <div className='flex flex-col gap-1 border-r border-slate-100 px-2 dark:border-slate-800'>
                 <span className='text-[10px] font-semibold tracking-widest text-slate-400 uppercase'>
-                  Rating
+                  {t.schoolView.rating}
                 </span>
-                <span
-                  className={`text-xs font-bold ${school.culture_climate_rating === 'VERY STRONG' ? 'text-emerald-600' : 'text-slate-700 dark:text-slate-300'}`}
-                >
+                <span className={'text-xs font-bold'}>
                   {school.culture_climate_rating || 'N/A'}
                 </span>
               </div>
 
               <div className='flex flex-col gap-1 pl-2'>
                 <span className='text-[10px] font-semibold tracking-widest text-slate-400 uppercase'>
-                  {lang === 'pt-BR' ? 'Freq.' : 'Att.'}
+                  {t.schoolView.attendance}
                 </span>
                 <span className='text-xs font-bold text-blue-600 dark:text-blue-400'>
                   {school.student_attendance_avg_pct}%
