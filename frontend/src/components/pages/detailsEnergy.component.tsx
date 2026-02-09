@@ -12,6 +12,8 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { useSettings } from '../context/settingsContext';
 import { translations } from '@/locales/i18n';
+import { ScrollArea } from '../ui/scroll-area';
+import { Button } from '../ui/button';
 
 interface FacilityDetailsProps {
   data: any | null;
@@ -27,22 +29,29 @@ export function DetailsEnergy({ data, isOpen, onClose }: FacilityDetailsProps) {
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent className='w-100 overflow-y-auto sm:w-135 sm:max-w-2xl dark:border-slate-800 dark:bg-slate-950'>
-        <SheetHeader className='pb-0'>
-          <SheetTitle className='text-xl font-bold text-slate-800 dark:text-slate-100'>
-            {data.community_area_name}
-          </SheetTitle>
-          <SheetDescription className='dark:text-slate-400'>
-            {t.energyDetails.description}
-          </SheetDescription>
-        </SheetHeader>
+      <SheetContent
+        side='right'
+        className='flex h-full w-full flex-col overflow-y-auto p-0 sm:max-w-xl dark:border-slate-800 dark:bg-slate-950'
+      >
+        <div className='flex flex-col p-6'>
+          <SheetHeader className='pb-0 text-left'>
+            <div className='flex items-center justify-between'>
+              <SheetTitle className='text-xl font-bold text-slate-800 dark:text-slate-100'>
+                {data.community_area_name}
+              </SheetTitle>
+            </div>
+            <SheetDescription className='mt-2 dark:text-slate-400'>
+              {t.energyDetails.description}
+            </SheetDescription>
+          </SheetHeader>
 
-        <div className='mt-6'>
-          <SectionStructure data={data} />
-          <Separator className='my-4 dark:bg-slate-800' />
-          <SectionEnergyConsumption data={data} />
-          <Separator className='my-4 dark:bg-slate-800' />
-          <SectionAllData data={data} />
+          <div className='mt-8 space-y-8'>
+            <SectionStructure data={data} />
+            <Separator className='dark:bg-slate-800' />
+            <SectionEnergyConsumption data={data} />
+            <Separator className='dark:bg-slate-800' />
+            <SectionAllData data={data} />
+          </div>
         </div>
       </SheetContent>
     </Sheet>

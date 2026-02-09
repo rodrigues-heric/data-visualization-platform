@@ -29,7 +29,7 @@ export function ConfigureColumns({
         <Button
           variant='outline'
           size='sm'
-          className='ml-auto gap-2 hover:cursor-pointer dark:border-slate-800 dark:text-slate-300'
+          className='ml-auto w-full gap-2 hover:cursor-pointer dark:border-slate-800 dark:bg-slate-950 dark:text-slate-50 dark:hover:bg-slate-800'
         >
           <Settings2 className='h-4 w-4' />
           {t.energyTable.columns}
