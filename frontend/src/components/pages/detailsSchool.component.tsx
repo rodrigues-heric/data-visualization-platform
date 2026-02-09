@@ -10,6 +10,8 @@ import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import type { ChicagoSchool } from '@/interfaces/chicagoSchool.interface';
 import { GraduationCap, MapPin, BarChart3, Globe } from 'lucide-react';
+import { useSettings } from '../context/settingsContext';
+import { translations } from '@/locales/i18n';
 
 interface DetailsSchoolProps {
   data: ChicagoSchool | null;
@@ -20,6 +22,9 @@ interface DetailsSchoolProps {
 export function DetailsSchool({ data, isOpen, onClose }: DetailsSchoolProps) {
   if (!data) return null;
 
+  const { lang } = useSettings();
+  const t = translations[lang];
+
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent className='w-full p-0 sm:max-w-3xl dark:border-slate-800 dark:bg-slate-950'>
@@ -29,7 +34,7 @@ export function DetailsSchool({ data, isOpen, onClose }: DetailsSchoolProps) {
               <div className='mb-2 flex items-center gap-2 text-blue-600 dark:text-blue-400'>
                 <GraduationCap className='h-5 w-5' />
                 <span className='text-xs font-bold tracking-widest uppercase'>
-                  School Profile
+                  {t.schoolDetails.profile}
                 </span>
               </div>
               <SheetTitle className='text-2xl font-bold dark:text-slate-100'>
@@ -42,35 +47,57 @@ export function DetailsSchool({ data, isOpen, onClose }: DetailsSchoolProps) {
             </SheetHeader>
 
             <Tabs defaultValue='overview' className='w-full'>
-              <TabsList className='grid w-full grid-cols-3 border dark:border-slate-800 dark:bg-slate-900'>
-                <TabsTrigger value='overview'>Geral</TabsTrigger>
-                <TabsTrigger value='academic'>Acadêmico</TabsTrigger>
-                <TabsTrigger value='climate'>Clima & Cultura</TabsTrigger>
+              <TabsList variant='line' className='grid w-full grid-cols-3'>
+                <TabsTrigger value='overview' className='hover:cursor-pointer'>
+                  {t.schoolDetails.tabs.overview}
+                </TabsTrigger>
+                <TabsTrigger value='academic' className='hover:cursor-pointer'>
+                  {t.schoolDetails.tabs.academic}
+                </TabsTrigger>
+                <TabsTrigger value='climate' className='hover:cursor-pointer'>
+                  {t.schoolDetails.tabs.climate}
+                </TabsTrigger>
               </TabsList>
 
               <TabsContent value='overview' className='mt-6 space-y-6'>
                 <section>
                   <h4 className='mb-4 text-xs font-bold tracking-wider text-slate-500 uppercase'>
-                    Informações Institucionais
+                    {t.schoolDetails.institutional.title}
                   </h4>
                   <div className='grid grid-cols-2 gap-y-4'>
-                    <InfoField label='ID da Escola' value={data.school_id} />
-                    <InfoField label='Tipo' value={data.school_type} />
                     <InfoField
-                      label='Categoria'
+                      label={t.schoolDetails.institutional.id}
+                      value={data.school_id}
+                    />
+                    <InfoField
+                      label={t.schoolDetails.institutional.type}
+                      value={data.school_type}
+                    />
+                    <InfoField
+                      label={t.schoolDetails.institutional.category}
                       value={data.primary_category}
                     />
-                    <InfoField label='Website' value={data.website} isLink />
+                    <InfoField
+                      label={t.schoolDetails.institutional.website}
+                      value={data.website}
+                      isLink
+                    />
                   </div>
                 </section>
                 <Separator className='dark:bg-slate-800' />
                 <section>
                   <h4 className='mb-4 text-xs font-bold tracking-wider text-slate-500 uppercase'>
-                    Estrutura e Contato
+                    {t.schoolDetails.contact.title}
                   </h4>
                   <div className='grid grid-cols-2 gap-y-4'>
-                    <InfoField label='Telefone' value={data.phone} />
-                    <InfoField label='Fax' value={data.fax} />
+                    <InfoField
+                      label={t.schoolDetails.contact.phone}
+                      value={data.phone}
+                    />
+                    <InfoField
+                      label={t.schoolDetails.contact.fax}
+                      value={data.fax}
+                    />
                   </div>
                 </section>
               </TabsContent>
@@ -78,16 +105,17 @@ export function DetailsSchool({ data, isOpen, onClose }: DetailsSchoolProps) {
               <TabsContent value='academic' className='mt-6 space-y-6'>
                 <div className='rounded-lg border border-blue-100 bg-blue-50/50 p-4 dark:border-blue-900/30 dark:bg-blue-900/10'>
                   <h4 className='mb-3 flex items-center gap-2 text-sm font-bold text-blue-900 dark:text-blue-300'>
-                    <BarChart3 className='h-4 w-4' /> Performance de Graduação
+                    <BarChart3 className='h-4 w-4' />
+                    {t.schoolDetails.academic.title}
                   </h4>
                   <div className='grid grid-cols-2 gap-4'>
                     <InfoField
-                      label='Graduação (4 anos)'
+                      label={t.schoolDetails.academic.graduation4}
                       value={`${data.graduation_4_year_school}%`}
                       highlight
                     />
                     <InfoField
-                      label='Graduação (5 anos)'
+                      label={t.schoolDetails.academic.graduation5}
                       value={`${data.graduation_5_year_school}%`}
                       highlight
                     />
@@ -96,23 +124,23 @@ export function DetailsSchool({ data, isOpen, onClose }: DetailsSchoolProps) {
 
                 <section>
                   <h4 className='mb-4 text-xs font-bold tracking-wider text-slate-500 uppercase'>
-                    Resultados NWEA (Attainment)
+                    {t.schoolDetails.nwea.title}
                   </h4>
                   <div className='grid grid-cols-2 gap-x-8 gap-y-4'>
                     <InfoField
-                      label='Math Label'
+                      label={t.schoolDetails.nwea.math}
                       value={data.attainment_math_lbl_es}
                     />
                     <InfoField
-                      label='Reading Label'
+                      label={t.schoolDetails.nwea.reading}
                       value={data.attainment_reading_lbl_es}
                     />
                     <InfoField
-                      label='Math Percentile'
+                      label={t.schoolDetails.nwea.mathPercentile}
                       value={`${data.attainment_math_pct_es}%`}
                     />
                     <InfoField
-                      label='Reading Percentile'
+                      label={t.schoolDetails.nwea.readingPercentile}
                       value={`${data.attainment_reading_pct_es}%`}
                     />
                   </div>
@@ -123,7 +151,7 @@ export function DetailsSchool({ data, isOpen, onClose }: DetailsSchoolProps) {
                 <section className='space-y-4'>
                   <div className='flex items-center justify-between'>
                     <h4 className='text-xs font-bold tracking-wider text-slate-500 uppercase'>
-                      Avaliação de Pesquisa
+                      {t.schoolDetails.climate.title}
                     </h4>
                     <span className='rounded bg-emerald-100 px-2 py-1 text-[10px] font-bold text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400'>
                       {data.school_survey_rating}
@@ -131,19 +159,19 @@ export function DetailsSchool({ data, isOpen, onClose }: DetailsSchoolProps) {
                   </div>
                   <div className='grid grid-cols-1 gap-3'>
                     <ProgressBar
-                      label='Ambiente de Suporte'
+                      label={t.schoolDetails.climate.ambience}
                       value={data.school_survey_supportive}
                     />
                     <ProgressBar
-                      label='Segurança'
+                      label={t.schoolDetails.climate.security}
                       value={data.school_survey_safety}
                     />
                     <ProgressBar
-                      label='Envolvimento dos Pais'
+                      label={t.schoolDetails.climate.involvement}
                       value={data.school_survey_involved}
                     />
                     <ProgressBar
-                      label='Liderança Efetiva'
+                      label={t.schoolDetails.climate.effectiveness}
                       value={data.school_survey_effective}
                     />
                   </div>

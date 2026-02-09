@@ -53,5 +53,44 @@
     "level": "Level",
     "rating": "Rating",
     "attendance": "Attendance"
+  },
+  "schoolDetails": {
+    "profile": "School Profile",
+    "tabs": {
+      "overview": "Overview",
+      "academic": "Academic",
+      "climate": "Climate & Culture"
+    },
+    "institutional": {
+      "title": "Institutional Information",
+      "id": "School ID",
+      "type": "Type",
+      "category": "Category",
+      "website": "Website"
+    },
+    "contact": {
+      "title": "Contact",
+      "phone": "Phone",
+      "fax": "Fax"
+    },
+    "academic": {
+      "title": "Graduation Performance",
+      "graduation4": "Graduation (4 years)",
+      "graduation5": "Graduation (5 years)"
+    },
+    "nwea": {
+      "title": "NWEA Performance",
+      "math": "Mathematics",
+      "reading": "Reading",
+      "mathPercentile": "Mathematics Percentile",
+      "readingPercentile": "Reading Percentile"
+    },
+    "climate": {
+      "title": "Survey Analysis",
+      "ambience": "Supporting Environment",
+      "security": "Security",
+      "involvement": "Parental Engagement",
+      "effectiveness": "Effective Leadership"
+    }
   }
 }

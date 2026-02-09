@@ -53,5 +53,44 @@
     "level": "Nível",
     "rating": "Avaliação",
     "attendance": "Frequência"
+  },
+  "schoolDetails": {
+    "profile": "Perfil da Escola",
+    "tabs": {
+      "overview": "Geral",
+      "academic": "Acadêmico",
+      "climate": "Clima & Cultura"
+    },
+    "institutional": {
+      "title": "Informações Institucionais",
+      "id": "ID da escola",
+      "type": "Tipo",
+      "category": "Categoria",
+      "website": "Site"
+    },
+    "contact": {
+      "title": "Contato",
+      "phone": "Telefone",
+      "fax": "Fax"
+    },
+    "academic": {
+      "title": "Performance de Graduação",
+      "graduation4": "Graduação (4 anos)",
+      "graduation5": "Graduação (5 anos)"
+    },
+    "nwea": {
+      "title": "Resultados NWEA",
+      "math": "Matemática",
+      "reading": "Leitura",
+      "mathPercentile": "Percentil de Matemática",
+      "readingPercentile": "Percentil de Leitura"
+    },
+    "climate": {
+      "title": "Avaliação de Pesquisa",
+      "ambience": "Ambiente de Suporte",
+      "security": "Segurança",
+      "involvement": "Envolvimento dos Pais",
+      "effectiveness": "Liderança Efetiva"
+    }
   }
 }
