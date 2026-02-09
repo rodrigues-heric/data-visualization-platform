@@ -1,11 +1,4 @@
-import {
-  Moon,
-  Sun,
-  Languages,
-  Building2,
-  LayoutDashboard,
-  BarChart3,
-} from 'lucide-react';
+import { Moon, Sun, Languages, Building2, Factory, School } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -23,8 +16,8 @@ export function Header() {
   const t = translations[lang];
 
   const navItems = [
-    { label: t.header.nav.energy, path: '/energy', icon: LayoutDashboard },
-    { label: t.header.nav.comparative, path: '/foo', icon: BarChart3 },
+    { label: t.header.nav.energy, path: '/energy', icon: Factory },
+    { label: t.header.nav.comparative, path: '/school', icon: School },
   ];
 
   return (

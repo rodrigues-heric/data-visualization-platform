@@ -34,7 +34,10 @@ export function DashboardEnergy() {
     ChicagoFacilityColumnKey[]
   >(['community_area_name', 'building_type', 'total_population', 'total_kwh']);
 
-  const { data, isLoading, isPlaceholderData } = useChicagoData(page);
+  const { data, isLoading, isPlaceholderData } = useChicagoData(
+    'facilities',
+    page
+  );
 
   const toggleColumn = (column: ChicagoFacilityColumnKey) => {
     setVisibleColumns(prev =>
@@ -44,8 +47,8 @@ export function DashboardEnergy() {
 
   if (isLoading) {
     return (
-      <div className='flex h-96 items-center justify-center text-slate-400 dark:text-slate-500'>
-        <div className='h-5 w-5 animate-spin rounded-full border-2 border-slate-300 border-t-slate-600 dark:border-slate-700 dark:border-t-slate-400' />
+      <div className='flex h-96 items-center justify-center'>
+        <div className='h-8 w-8 animate-spin rounded-full border-4 border-slate-200 border-t-blue-600' />
       </div>
     );
   }
