@@ -4,7 +4,7 @@ import {
   fetchChicagoSchools,
 } from '@/services/chicagoAPI.service';
 import type { ChicagoFacility } from '@/interfaces/chicagoFacility.interface';
-import type { ChicagoSchool } from '@/interfaces/chicagoSchool.interace';
+import type { ChicagoSchool } from '@/interfaces/chicagoSchool.interface';
 
 export type ChicagoResourceType = 'facilities' | 'schools';
 

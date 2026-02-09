@@ -1,5 +1,5 @@
 import type { ChicagoFacility } from '@/interfaces/chicagoFacility.interface';
-import type { ChicagoSchool } from '@/interfaces/chicagoSchool.interace';
+import type { ChicagoSchool } from '@/interfaces/chicagoSchool.interface';
 import { PAGE_LIMIT } from '@/constants/pagination';
 
 const ENDPOINTS = {
