@@ -36,13 +36,13 @@ export function DashboardSchool() {
 
   return (
     <>
-      <div className='flex flex-col gap-6'>
-        <div className='flex items-center justify-between border-b border-slate-200 pb-6 dark:border-slate-800'>
+      <div className='flex flex-col gap-6 px-4 pt-2 pb-4 sm:px-0 sm:pt-0 sm:pb-0'>
+        <div className='flex flex-col gap-4 border-b border-slate-200 pb-6 sm:flex-row sm:items-center sm:justify-between dark:border-slate-800'>
           <div>
-            <h2 className='text-2xl font-bold text-slate-900 dark:text-slate-100'>
+            <h2 className='text-xl font-bold text-slate-900 sm:text-2xl dark:text-slate-100'>
               {t.schoolView.title}
             </h2>
-            <p className='text-sm text-slate-500 dark:text-slate-200'>
+            <p className='text-xs text-slate-500 sm:text-sm dark:text-slate-400'>
               {t.schoolView.showing}{' '}
               <span className='font-bold text-slate-700 dark:text-slate-200'>
                 {startRange}-{endRange}
@@ -50,29 +50,33 @@ export function DashboardSchool() {
             </p>
           </div>
 
-          <div className='flex items-center gap-3'>
+          <div className='flex items-center gap-2 sm:gap-3'>
             <Button
               variant='outline'
               size='sm'
               onClick={() => setPage(p => Math.max(0, p - 1))}
               disabled={page === 0}
-              className='hover:cursor-pointer dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300 dark:hover:bg-slate-900'
+              className='flex-1 hover:cursor-pointer sm:flex-none dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300'
             >
-              <ChevronLeft className='mr-2 h-4 w-4' />
-              {t.schoolView.previous}
+              <ChevronLeft className='mr-1 h-4 w-4 sm:mr-2' />
+              <span className='text-xs sm:text-sm'>
+                {t.schoolView.previous}
+              </span>
             </Button>
-            <div className='flex h-9 items-center justify-center rounded-md border border-slate-200 px-4 text-sm font-medium hover:cursor-default dark:border-slate-800 dark:bg-slate-900 dark:text-slate-100'>
+
+            <div className='flex h-9 min-w-9 items-center justify-center rounded-md border border-slate-200 px-3 text-sm font-medium hover:cursor-default dark:border-slate-800 dark:bg-slate-900 dark:text-slate-100'>
               {page + 1}
             </div>
+
             <Button
               variant='outline'
               size='sm'
               onClick={() => setPage(p => p + 1)}
               disabled={isPlaceholderData || (data && data.length < PAGE_LIMIT)}
-              className='hover:cursor-pointer dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300 dark:hover:bg-slate-900'
+              className='flex-1 hover:cursor-pointer sm:flex-none dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300'
             >
-              {t.schoolView.next}
-              <ChevronRight className='ml-2 h-4 w-4' />
+              <span className='text-xs sm:text-sm'>{t.schoolView.next}</span>
+              <ChevronRight className='ml-1 h-4 w-4 sm:ml-2' />
             </Button>
           </div>
         </div>
@@ -81,7 +85,7 @@ export function DashboardSchool() {
           {data?.map(school => (
             <Card
               key={school.school_id}
-              className='group transition-all hover:cursor-pointer hover:border-blue-500/50 hover:shadow-md dark:border-slate-800 dark:bg-slate-950 dark:hover:border-blue-400/30'
+              className='group transition-all hover:cursor-pointer hover:border-blue-500/50 hover:shadow-md active:scale-[0.98] sm:active:scale-100 dark:border-slate-800 dark:bg-slate-950 dark:hover:border-blue-400/30'
               onClick={() => setSelectedSchool(school)}
             >
               <CardHeader className='p-5 pb-3'>
@@ -96,30 +100,30 @@ export function DashboardSchool() {
                 </p>
               </CardHeader>
 
-              <CardContent className='grid grid-cols-3 gap-2 p-5 pt-0'>
-                <div className='flex flex-col gap-1 border-r border-slate-100 pr-2 dark:border-slate-800'>
-                  <span className='text-[10px] font-semibold tracking-widest text-slate-400 uppercase dark:text-slate-500'>
+              <CardContent className='grid grid-cols-3 gap-1 p-5 pt-0 sm:gap-2'>
+                <div className='flex flex-col gap-1 border-r border-slate-100 pr-1 sm:pr-2 dark:border-slate-800'>
+                  <span className='text-[9px] font-semibold tracking-tight text-slate-400 uppercase sm:text-[10px] sm:tracking-widest dark:text-slate-500'>
                     {t.schoolView.level}
                   </span>
-                  <span className='text-xs font-medium text-slate-700 dark:text-slate-300'>
+                  <span className='truncate text-[11px] font-medium text-slate-700 sm:text-xs dark:text-slate-300'>
                     {school.primary_category}
                   </span>
                 </div>
 
-                <div className='flex flex-col gap-1 border-r border-slate-100 px-2 dark:border-slate-800'>
-                  <span className='text-[10px] font-semibold tracking-widest text-slate-400 uppercase dark:text-slate-500'>
+                <div className='flex flex-col gap-1 border-r border-slate-100 px-1 sm:px-2 dark:border-slate-800'>
+                  <span className='text-[9px] font-semibold tracking-tight text-slate-400 uppercase sm:text-[10px] sm:tracking-widest dark:text-slate-500'>
                     {t.schoolView.rating}
                   </span>
-                  <span className={'text-xs font-bold'}>
+                  <span className='truncate text-[11px] font-bold text-slate-700 sm:text-xs dark:text-slate-200'>
                     {school.culture_climate_rating || 'N/A'}
                   </span>
                 </div>
 
-                <div className='flex flex-col gap-1 pl-2'>
-                  <span className='text-[10px] font-semibold tracking-widest text-slate-400 uppercase dark:text-slate-500'>
+                <div className='flex flex-col gap-1 pl-1 sm:pl-2'>
+                  <span className='text-[9px] font-semibold tracking-tight text-slate-400 uppercase sm:text-[10px] sm:tracking-widest dark:text-slate-500'>
                     {t.schoolView.attendance}
                   </span>
-                  <span className='text-xs font-bold text-blue-600 dark:text-blue-400'>
+                  <span className='text-[11px] font-bold text-blue-600 sm:text-xs dark:text-blue-400'>
                     {school.student_attendance_avg_pct}%
                   </span>
                 </div>
@@ -128,6 +132,7 @@ export function DashboardSchool() {
           ))}
         </FadeIn>
       </div>
+
       <DetailsSchool
         data={selectedSchool}
         isOpen={!!selectedSchool}

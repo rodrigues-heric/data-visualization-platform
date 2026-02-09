@@ -9,7 +9,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { CardTitle } from '@/components/ui/card';
 
 import { useChicagoData } from '@/hooks/useChicagoData.hook';
 import {
@@ -56,47 +56,47 @@ export function DashboardEnergy() {
   return (
     <>
       <FadeIn>
-        <Card className='flex h-175 flex-col gap-0 overflow-hidden border-slate-200 bg-white p-0 shadow-sm dark:border-slate-800 dark:bg-slate-950'>
-          <CardHeader className='m-0 flex shrink-0 flex-row items-center justify-between border-b border-slate-200 bg-slate-50/50 px-6 py-4 dark:border-slate-800 dark:bg-slate-900/50'>
+        <div className='flex flex-col gap-0 overflow-hidden border-slate-200 bg-white shadow-none transition-all sm:rounded-xl sm:border sm:shadow-sm lg:h-175 dark:border-slate-800 dark:bg-slate-950'>
+          <div className='m-0 flex shrink-0 flex-col gap-4 border-b border-slate-200 bg-slate-50/50 px-4 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6 dark:border-slate-800 dark:bg-slate-900/50'>
             <div>
-              <CardTitle className='text-lg leading-none font-semibold text-slate-800 dark:text-slate-100'>
+              <CardTitle className='text-base leading-none font-semibold text-slate-800 sm:text-lg dark:text-slate-100'>
                 {t.energyTable.title}
               </CardTitle>
-              <p className='mt-1.5 text-xs text-slate-500 dark:text-slate-400'>
+              <p className='mt-1.5 text-[10px] text-slate-500 sm:text-xs dark:text-slate-400'>
                 {t.energyTable.subtitle}
               </p>
             </div>
 
-            <div className='flex gap-2'>
+            <div className='flex w-full gap-2 sm:w-auto'>
               <Button
                 variant='outline'
                 size='sm'
                 onClick={() => downloadCSV(data || [], visibleColumns, page)}
-                className='gap-2 hover:cursor-pointer dark:border-slate-800 dark:hover:bg-slate-800'
+                className='flex-1 gap-2 hover:cursor-pointer sm:flex-none dark:border-slate-800 dark:bg-slate-950 dark:text-slate-50 dark:hover:bg-slate-800'
               >
                 <Download className='h-4 w-4' />
-                {t.energyTable.export}
+                <span className='hidden sm:inline'>{t.energyTable.export}</span>
+                <span className='sm:hidden'>Exportar</span>
               </Button>
 
-              <ConfigureColumns
-                visibleColumns={visibleColumns}
-                toggleColumn={toggleColumn}
-              />
+              <div className='flex-1 sm:flex-none'>
+                <ConfigureColumns
+                  visibleColumns={visibleColumns}
+                  toggleColumn={toggleColumn}
+                />
+              </div>
             </div>
-          </CardHeader>
+          </div>
 
-          <CardContent className='m-0 flex flex-1 flex-col overflow-hidden p-0 pt-0!'>
-            <div className='flex-1 overflow-auto bg-white outline-none **:data-[slot=table-container]:overflow-visible dark:bg-slate-950'>
-              <Table
-                className='relative border-separate border-spacing-0'
-                style={{ overflow: 'visible' }}
-              >
+          <div className='m-0 flex flex-1 flex-col overflow-hidden p-0'>
+            <div className='flex-1 overflow-x-auto overflow-y-auto bg-white dark:bg-slate-950'>
+              <Table className='relative min-w-180 border-separate border-spacing-0 lg:min-w-full'>
                 <TableHeader className='sticky top-0 z-20'>
                   <TableRow className='border-none hover:bg-transparent'>
                     {visibleColumns.map(col => (
                       <TableHead
                         key={col}
-                        className='h-11 border-b border-slate-200 bg-slate-50 px-4 font-bold whitespace-nowrap text-slate-700 first:pl-6 last:pr-6 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200'
+                        className='h-12 border-b border-slate-200 bg-slate-50/50 px-4 text-[11px] font-bold whitespace-nowrap text-slate-700 first:pl-4 last:pr-4 sm:px-6 sm:text-xs dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200'
                       >
                         {AVAILABLE_COLUMNS[col]}
                       </TableHead>
@@ -107,17 +107,19 @@ export function DashboardEnergy() {
                   {data?.map((item, rowIndex) => (
                     <TableRow
                       key={rowIndex}
-                      className='hover:cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-900/50'
+                      className='group hover:cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-900/50'
                       onClick={() => setSelectedRow(item)}
                     >
                       {visibleColumns.map(col => (
                         <TableCell
                           key={col}
-                          className='border-b border-slate-100 px-4 py-3 text-sm text-slate-600 first:pl-6 last:pr-6 dark:border-slate-800 dark:text-slate-400'
+                          className='border-b border-slate-100 px-4 py-4 text-xs text-slate-600 first:pl-4 last:pr-4 sm:px-6 sm:text-sm dark:border-slate-800 dark:text-slate-400'
                         >
                           {typeof item[col] === 'string' &&
                           !isNaN(Number(item[col]))
-                            ? Number(item[col]).toLocaleString('pt-BR')
+                            ? Number(item[col]).toLocaleString(
+                                lang === 'pt-BR' ? 'pt-BR' : 'en-US'
+                              )
                             : item[col]}
                         </TableCell>
                       ))}
@@ -133,8 +135,8 @@ export function DashboardEnergy() {
               setPage={setPage}
               isPlaceholderData={isPlaceholderData}
             />
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </FadeIn>
 
       <DetailsEnergy
