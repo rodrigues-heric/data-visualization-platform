@@ -34,7 +34,10 @@ export function DashboardEnergy() {
     ChicagoFacilityColumnKey[]
   >(['community_area_name', 'building_type', 'total_population', 'total_kwh']);
 
-  const { data, isLoading, isPlaceholderData } = useChicagoData(page);
+  const { data, isLoading, isPlaceholderData } = useChicagoData(
+    'facilities',
+    page
+  );
 
   const toggleColumn = (column: ChicagoFacilityColumnKey) => {
     setVisibleColumns(prev =>
