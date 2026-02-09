@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Home } from '@/components/pages/home';
 import { DashboardEnergy } from './components/pages/dashboardEnergy.component';
 import { SettingsProvider } from './components/context/settingsContext';
+import { DashboardSchool } from './components/pages/dashboardSchool.component';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,6 +23,7 @@ function App() {
             <Route path='/' element={<Home />}>
               <Route index element={<Navigate to='/energy' replace />} />
               <Route path='energy' element={<DashboardEnergy />} />
+              <Route path='school' element={<DashboardSchool />} />
             </Route>
             <Route
               path='*'
