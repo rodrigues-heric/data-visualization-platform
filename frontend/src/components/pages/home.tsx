@@ -7,7 +7,7 @@ export function Home() {
     <div className='flex min-h-screen flex-col bg-slate-50/50'>
       <Header />
 
-      <main className='flex-1 px-12 pt-24 pb-12'>
+      <main className='mb-0 flex-1 pt-16 sm:mb-12 sm:px-12 sm:pt-24'>
         <div className='mx-auto max-w-7xl'>
           <Outlet />
         </div>
