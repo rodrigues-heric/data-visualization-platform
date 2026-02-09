@@ -9,7 +9,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { CardTitle } from '@/components/ui/card';
 
 import { useChicagoData } from '@/hooks/useChicagoData.hook';
 import {
@@ -72,7 +72,7 @@ export function DashboardEnergy() {
                 variant='outline'
                 size='sm'
                 onClick={() => downloadCSV(data || [], visibleColumns, page)}
-                className='flex-1 gap-2 hover:cursor-pointer sm:flex-none dark:border-slate-800 dark:bg-slate-950 dark:hover:bg-slate-800'
+                className='flex-1 gap-2 hover:cursor-pointer sm:flex-none dark:border-slate-800 dark:bg-slate-950 dark:text-slate-50 dark:hover:bg-slate-800'
               >
                 <Download className='h-4 w-4' />
                 <span className='hidden sm:inline'>{t.energyTable.export}</span>

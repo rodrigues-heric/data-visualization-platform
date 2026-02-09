@@ -40,7 +40,6 @@ export function Header() {
   return (
     <header className='fixed top-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/80'>
       <div className='mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6'>
-        {/* LADO ESQUERDO: Logo e Menu Mobile */}
         <div className='flex items-center gap-4'>
           <div className='flex items-center gap-2'>
             <div className='flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900'>
@@ -55,7 +54,6 @@ export function Header() {
           </div>
         </div>
 
-        {/* CENTRO: Navegação Desktop */}
         <nav className='hidden items-center gap-8 md:flex'>
           {navItems.map(item => {
             const isActive = location.pathname === item.path;
@@ -83,9 +81,7 @@ export function Header() {
           })}
         </nav>
 
-        {/* LADO DIREITO: Ações */}
         <div className='flex items-center gap-1 sm:gap-4'>
-          {/* Idioma e Tema (Sempre Visíveis) */}
           <div className='flex items-center'>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -125,7 +121,6 @@ export function Header() {
 
           <div className='mx-1 hidden h-6 w-px bg-slate-200 sm:block dark:bg-slate-800' />
 
-          {/* Usuário Desktop */}
           <div className='hidden lg:block'>
             <p className='text-xs font-semibold text-slate-900 dark:text-slate-100'>
               {t.header.user.name}
@@ -135,7 +130,6 @@ export function Header() {
             </p>
           </div>
 
-          {/* MENU MOBILE (Hambúrguer) */}
           <div className='md:hidden'>
             <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
               <SheetTrigger asChild>

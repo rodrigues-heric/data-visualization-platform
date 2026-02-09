@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom';
 
 export function Home() {
   return (
-    <div className='flex min-h-screen flex-col bg-slate-50/50'>
+    <div className='flex min-h-screen flex-col bg-slate-50/50 dark:bg-[#1B2337]/50'>
       <Header />
 
       <main className='mb-0 flex-1 pt-16 sm:mb-12 sm:px-12 sm:pt-24'>
